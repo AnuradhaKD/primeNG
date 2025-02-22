@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FloatLabelModule } from "primeng/floatlabel"
+import { Component, Input } from '@angular/core';
+import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 
@@ -10,5 +10,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './text-input.component.css'
 })
 export class TextInputComponent {
-  value:string=''
+  @Input() inputId: string = '';
+  @Input() inputLabel: string = '';
+  @Input() inputPlaceholder: string = '';
+  @Input() inputValue: string = '';
+  @Input() inputClass: string = '';
 }

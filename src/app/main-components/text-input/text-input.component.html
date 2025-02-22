@@ -1,4 +1,5 @@
-<p-floatlabel variant="on">
-    <input pInputText id="on_label" [(ngModel)]="value" autocomplete="off" />
-    <label for="on_label">On Label</label>
-</p-floatlabel>
+<p-floatlabel [class]="inputClass" variant="on" >
+    <input pInputText [id]="inputId" [(ngModel)]="inputValue" autocomplete="off" [placeholder]="inputPlaceholder" style="width: 100%;"/>
+    <label [for]="inputId">{{ inputLabel }}</label>
+  </p-floatlabel>
+  
