@@ -1,1 +1,18 @@
-<p>drop-down-with-search works!</p>
+<p-floatlabel class="w-full" variant="on">
+    <p-select [options]="dropdownDataList" [(ngModel)]="selectedItem" optionLabel="name" [filter]="true" filterBy="name"
+        [showClear]="true" class="w-full" (ngModelChange)="onSelectionChange($event)">
+
+        <ng-template #selectedItem let-selectedOption>
+            <div class="flex items-center gap-2">
+                <div>{{ selectedOption.name }}</div>
+            </div>
+        </ng-template>
+
+        <ng-template let-item #item>
+            <div class="flex items-center gap-2">
+                <div>{{ item.name }}</div>
+            </div>
+        </ng-template>
+    </p-select>
+    <label for="on_label">{{ labelName }}</label>
+</p-floatlabel>

@@ -1,4 +1,6 @@
 <div class="container mt-4">
+
+<p-fieldset legend="User Details">
   <form>
     <!-- [formGroup]="registrationForm" (ngSubmit)="submitForm()" -->
     <div class="row">
@@ -21,16 +23,72 @@
 
 
       <div class="col-md-6">
-<app-date-picker [labelName]="'Select your stay'" selectionMode="range"></app-date-picker>
+        <app-date-picker [labelName]="'Select your stay'" selectionMode="range"></app-date-picker>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <app-drop-down-with-search [dropdownDataList]="continentsList" [(selectedItem)]="selectedItem"
+          [labelName]="'Select a continent'" (selectedItemChange)="onDropdownChange($event)">
+        </app-drop-down-with-search>
+
+      </div>
+
+
+      <div class="col-md-6">
+        <app-drop-down-with-search [dropdownDataList]="countryList" [(selectedItem)]="selectedItem"
+          [labelName]="'Select a country'" (selectedItemChange)="onDropdownChange($event)">
+        </app-drop-down-with-search>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <app-checkbox-group [categories]="categories" [(selectedCategories)]="selectedCategories" (selectedCategoriesChange)="onCategoryChange($event)">
+        </app-checkbox-group>
+
+      </div>
+
+
+      <div class="col-md-6">
+        <app-checkbox-group [categories]="categories1" [(selectedCategories)]="selectedCategories1" layout="horizontal">
+      </app-checkbox-group>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <app-radiobutton-group [categories]="categories2" [(selectedCategories)]="selectedCategories2">
+        </app-radiobutton-group>
+    
+      </div>
+    
+    
+      <div class="col-md-6">
+        <app-radiobutton-group [categories]="categories3" [(selectedCategories)]="selectedCategories3" layout="horizontal">
+        </app-radiobutton-group>
       </div>
     </div>
 
 
+
     <div class="row mt-4">
-      <div class="col-md-12 text-center">
-        <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="col-md-12">
+        <app-button [btnLabel]="'Submit'" [btnIcon]="'pi pi-check'" [btnSeverity]="'success'">
+        </app-button>
+        <!-- <app-button [btnLabel]="'t1'" [btnIcon]="'pi pi-check'" [btnSeverity]="'primary'" [loading]="false" [btnVariant]="'text'" >
+        </app-button>
+        <app-button [btnLabel]="'t4'" [btnIcon]="'pi pi-check'" [btnSeverity]="'help'" [loading]="false"
+          [btnVariant]="'outlined'">
+        </app-button>
+        <app-button [btnLabel]="'t2'" [btnIcon]="'pi pi-check'" [btnSeverity]="'warn'" [isBtnRaised]="true">
+        </app-button>
+        <app-button [btnLabel]="'t3'" [btnIcon]="'pi pi-check'" [btnSeverity]="'success'" [isBtnDisabled]="true">
+        </app-button> -->
       </div>
     </div>
 
   </form>
+  </p-fieldset>
 </div>
