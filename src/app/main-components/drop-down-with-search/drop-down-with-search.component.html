@@ -1,6 +1,6 @@
 <p-floatlabel class="w-full" variant="on">
-    <p-select [options]="dropdownDataList" [(ngModel)]="selectedItem" optionLabel="name" [filter]="true" filterBy="name"
-        [showClear]="true" class="w-full" (ngModelChange)="onSelectionChange($event)">
+    <p-select [options]="dropdownDataList" formControlName="dropdownFormControlName" optionLabel="name"
+        [filter]="true" filterBy="name" [placeholder]="dropdownPlaceholder" [showClear]="true" class="w-full">
 
         <ng-template #selectedItem let-selectedOption>
             <div class="flex items-center gap-2">
@@ -14,5 +14,5 @@
             </div>
         </ng-template>
     </p-select>
-    <label for="on_label">{{ labelName }}</label>
+    <label>{{ labelName }}</label>
 </p-floatlabel>

@@ -1,26 +1,55 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  Component,
+  Input,
+  EventEmitter,
+  Output,
+  forwardRef,
+} from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-date-picker',
-  imports: [DatePicker,FormsModule,FloatLabelModule],
+  standalone: true,
+  imports: [DatePicker, FormsModule, FloatLabelModule, ReactiveFormsModule],
   templateUrl: './date-picker.component.html',
-  styleUrl: './date-picker.component.css'
+  styleUrls: ['./date-picker.component.css'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DatePickerComponent),
+      multi: true,
+    },
+  ],
 })
-export class DatePickerComponent {
-@Input() labelName: string = '';
-  @Input() selectionMode: any = "single"; 
-  @Input() selectedDate:Date | undefined
+export class DatePickerComponent implements ControlValueAccessor {
+  @Input() labelName: string = '';
+  @Input() selectionMode: any = 'single';
   @Input() minDate: Date | null = null;
   @Input() maxDate: Date | null = null;
+  @Input() formControlName!: string;
 
-  @Output() selectedDateChange = new EventEmitter<Date[]>();
+  selectedDate: Date | null = null;
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
-  // If you need to handle the selection change
-  onDateChange(event: Date[]) {
-    this.selectedDateChange.emit(event);
+  writeValue(value: any): void {
+    if (value !== undefined) {
+      this.selectedDate = value;
+    }
   }
 
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  onDateChange(event: any) {
+    this.onChange(event.value);
+  }
 }

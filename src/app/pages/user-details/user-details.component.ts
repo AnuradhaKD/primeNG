@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,6 +13,7 @@ import { DropDownWithSearchComponent } from '../../main-components/drop-down-wit
 import { CheckboxGroupComponent } from '../../main-components/checkbox-group/checkbox-group.component';
 import { RadiobuttonGroupComponent } from '../../main-components/radiobutton-group/radiobutton-group.component';
 import { ButtonComponent } from '../../main-components/button/button.component';
+import { TableComponent } from '../../main-components/table/table.component';
 
 @Component({
   selector: 'app-user-details',
@@ -25,14 +26,17 @@ import { ButtonComponent } from '../../main-components/button/button.component';
     RadiobuttonGroupComponent,
     ButtonComponent,
     FieldsetModule,
+    TableComponent,
   ],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.css',
 })
-export class UserDetailsComponent {
+export class UserDetailsComponent implements OnInit {
   registrationForm!: FormGroup;
   minDate: Date = new Date('2025-02-01');
   maxDate: Date = new Date('2025-02-28');
+  selectedDate: Date = new Date();
+  products: any[] = []; // Holds table data
 
   constructor(private fb: FormBuilder) {}
 
@@ -60,61 +64,94 @@ export class UserDetailsComponent {
     { name: 'Oceania', value: 'OC' },
   ];
 
-  selectedItem: string | undefined = '1';
-
-  onDropdownChange(newValue: string) {
-    console.log('Selected Value:', newValue);
-    this.selectedItem = newValue;
-  }
-
-  categories = [
-    { name: 'Accounting', value: 'A' },
-    { name: 'Marketing', value: '5' },
-    { name: 'Production', value: 'P' },
-    { name: 'Research', value: 'R' },
+  hobbyList = [
+    { name: 'Gaming', value: '12' },
+    { name: 'Singing', value: '10' },
+    { name: 'Dancing', value: '13' },
+    { name: 'Writing', value: '20' },
   ];
 
-  categories1 = [
-    { name: 'Accounting1', value: 'A' },
-    { name: 'Marketing', value: 'M' },
-    { name: 'Production', value: 'P' },
-    { name: 'Research', value: 'R' },
-  ];
-  categories2 = [
-    { name: 'Accounting', key: 'A' },
-    { name: 'Marketing', key: 'M' },
-    { name: 'Production', key: 'P' },
-    { name: 'Research', key: 'R' },
+  genderList = [
+    { name: 'Male', key: 'M' },
+    { name: 'Female', key: 'F' },
+    { name: 'Others', key: 'O' },
   ];
 
-  categories3 = [
-    { name: 'Accounting', key: 'A' },
-    { name: 'Marketing', key: 'M' },
-    { name: 'Production', key: 'P' },
-    { name: 'Research', key: 'R' },
+  cols = [
+    { field: 'firstName', header: 'First Name' },
+    { field: 'lastName', header: 'Last Name' },
+    { field: 'dob', header: 'Date of Birth' },
+    { field: 'stayPeriod', header: 'Stay Period' },
+    { field: 'continent', header: 'Continent' },
+    { field: 'country', header: 'Country' },
+    { field: 'gender', header: 'Gender' },
+    { field: 'hobbies', header: 'Hobbies' },
   ];
-
-  selectedCategories = [this.categories[1], this.categories[2]];
-  selectedCategories1: any[] = [];
-  selectedCategories2 = [this.categories2[1]];
-  selectedCategories3: any[] = [];
-
-  onCategoryChange(newSelection: any[]) {
-    console.log('Updated Selected Categories:', newSelection);
-    this.selectedCategories = newSelection;
-  }
 
   ngOnInit(): void {
     this.registrationForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
       dob: ['', Validators.required],
-      gender: ['', Validators.required],
       stayPeriod: [null, Validators.required],
-      continent: ['', Validators.required],
-      country: [{ value: '', disabled: true }, Validators.required],
-      acceptAgreement: [false, Validators.requiredTrue],
+      continent: [[]],
+      country: [[]],
+      gender: ['', Validators.required],
+      hobbies: [[]], // Multiple selections
     });
+
+    // Load existing data from local storage
+    this.loadTableData();
   }
+
+  submitForm() {
+    if (this.registrationForm.valid) {
+      const formData = this.registrationForm.value;
+
+      // Convert to readable format
+      const newData = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        dob: formData.dob.toLocaleDateString(),
+        stayPeriod: formData.stayPeriod,
+        continent: this.getNameFromValue(
+          this.continentsList,
+          formData.continent
+        ),
+        country: this.getNameFromValue(this.countryList, formData.country),
+        gender: this.getNameFromValue(this.genderList, formData.gender),
+        hobbies: formData.hobbies.map((h: any) => h.name).join(', '),
+      };
+
+      // Store data in localStorage
+      const storedData = JSON.parse(
+        localStorage.getItem('userDetails') || '[]'
+      );
+      storedData.push(newData);
+      localStorage.setItem('userDetails', JSON.stringify(storedData));
+
+      // Reload table data
+      this.loadTableData();
+      this.registrationForm.reset();
+    }
+  }
+
+  onDropdownChange(newValue: string, controlName: string) {
+    this.registrationForm.get(controlName)?.setValue(newValue);
+    console.log(`${controlName} selected:`, newValue);
+  }
+
+  loadTableData() {
+    this.products = JSON.parse(localStorage.getItem('userDetails') || '[]');
+  }
+
+  getNameFromValue(list: any[], value: string) {
+    const item = list.find((l) => l.value === value || l.key === value);
+    return item ? item.name : value;
+  }
+
+  // onDateChange(event: Date) {
+  //   this.selectedDate = event;
+  //   console.log(this.selectedDate);
+  // }
 }

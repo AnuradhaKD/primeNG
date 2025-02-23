@@ -1,5 +1,5 @@
-<p-floatlabel [class]="inputClass" variant="on" >
-    <input pInputText [id]="inputId" [(ngModel)]="inputValue" autocomplete="off" [placeholder]="inputPlaceholder" style="width: 100%;"/>
-    <label [for]="inputId">{{ inputLabel }}</label>
-  </p-floatlabel>
-  
+<p-floatlabel variant="on" class="full-width-inputs">
+  <input pInputText [id]="inputId" [(ngModel)]="inputValue" (input)="handleInputChange($event)" autocomplete="off"
+    [placeholder]="inputPlaceholder" style="width: 100%" />
+  <label [for]="inputId">{{ inputLabel }}</label>
+</p-floatlabel>
