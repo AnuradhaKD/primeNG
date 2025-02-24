@@ -49,20 +49,21 @@
       <div class="row mt-3">
         <div class="col-md-6">
           <label>Gender : </label>
-          <app-radiobutton-group [categories]="genderList" formControlName="gender" layout="horizontal">
+          <app-radiobutton-group (onValueChange)="onRadioValueChange($event)" [categories]="genderList"
+            formControlName="gender" layout="horizontal">
           </app-radiobutton-group>
         </div>
 
         <div class="col-md-6">
           <label>Hobbies : </label>
-          <app-checkbox-group [categories]="hobbyList" formControlName="hobbies">
+          <app-checkbox-group [categories]="hobbyList" formControlName="hobbies"
+            (onValueChange)="handleCheckboxChange($event)">
           </app-checkbox-group>
         </div>
       </div>
 
       <div class="row mt-4">
         <div class="col-md-12">
-          <!-- <button class="btn btn-primary" type="submit">Submit</button> -->
           <app-button [btnLabel]="'Submit'" [btnIcon]="'pi pi-check'" [btnSeverity]="'success'" [btnType]="'submit'">
           </app-button>
 

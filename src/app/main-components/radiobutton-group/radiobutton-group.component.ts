@@ -29,13 +29,21 @@ import { FormsModule } from '@angular/forms';
 export class RadiobuttonGroupComponent implements ControlValueAccessor {
   @Input() categories: { name: string; key: string }[] = [];
   @Input() layout: 'horizontal' | 'vertical' = 'vertical';
-  @Input() selectedValue: string | null = null; // This will hold the selected value from the form
-  @Output() selectedValueChange = new EventEmitter<string | null>();
+  @Input() selectedValue: string | null = null;
 
-  private onChange: (value: string | null) => void = () => {}; // function to call when value changes
-  private onTouched: () => void = () => {}; // function to call when input is touched
+  @Output() onValueChange = new EventEmitter<any>();
 
-  // Required methods from ControlValueAccessor
+  onRadioValueChange(event: any) {
+    //if (event.value !== this.selectedValue) {
+
+    console.log(event.target.value);
+    this.onValueChange.emit(event.target.value);
+    this.onChange(event.Id);
+    //}
+  }
+  private onChange: (value: string | null) => void = () => {};
+  private onTouched: () => void = () => {};
+
   writeValue(value: string | null): void {
     this.selectedValue = value;
   }
@@ -48,14 +56,6 @@ export class RadiobuttonGroupComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  // Handle value changes in the radio button group
-  onSelectionChange(value: string | null) {
-    this.selectedValue = value;
-    this.onChange(value); // Notify the form about the change
-    this.selectedValueChange.emit(value);
-  }
-
-  // Handle blur event to mark the control as touched
   onBlur() {
     this.onTouched();
   }

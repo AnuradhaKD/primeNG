@@ -26,19 +26,34 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 })
 export class DatePickerComponent implements ControlValueAccessor {
   @Input() labelName: string = '';
-  @Input() selectionMode: any = 'single';
+  @Input() selectionMode: 'single' | 'range' = 'single';
   @Input() minDate: Date | null = null;
   @Input() maxDate: Date | null = null;
 
-  @Output() dateChange = new EventEmitter<Date>();
+  @Output() dateChange = new EventEmitter<
+    Date | [Date | null, Date | null] | null
+  >();
 
-  selectedDate: Date | undefined;
-  onChange: any = () => {};
-  onTouched: any = () => {};
+  selectedDate: Date | [Date | null, Date | null] | null = null;
+
+  private onChange: (value: any) => void = () => {};
+  private onTouched: () => void = () => {};
 
   writeValue(value: any): void {
-    if (value !== undefined) {
-      this.selectedDate = value;
+    if (this.selectionMode === 'single') {
+      // Handle single date value (can be a string or Date)
+      this.selectedDate = value ? new Date(value) : null;
+    } else if (
+      this.selectionMode === 'range' &&
+      Array.isArray(value) &&
+      value.length === 2
+    ) {
+      // Handle date range with null values
+      const startDate = value[0] ? new Date(value[0]) : null;
+      const endDate = value[1] ? new Date(value[1]) : null;
+      this.selectedDate = [startDate, endDate];
+    } else {
+      this.selectedDate = null;
     }
   }
 
@@ -51,8 +66,28 @@ export class DatePickerComponent implements ControlValueAccessor {
   }
 
   onDateChange(event: any) {
-    this.selectedDate = event.value;
+    if (this.selectionMode === 'single') {
+      // For single date
+      this.selectedDate = event ? new Date(event) : null;
+    } else if (
+      this.selectionMode === 'range' &&
+      Array.isArray(event) &&
+      event.length === 2
+    ) {
+      // For date range with null values
+      const startDate = event[0] ? new Date(event[0]) : null;
+      const endDate = event[1] ? new Date(event[1]) : null;
+      this.selectedDate = [startDate, endDate];
+    } else {
+      this.selectedDate = null;
+    }
+
+    // Emit changes
     this.onChange(this.selectedDate);
     this.dateChange.emit(this.selectedDate);
+  }
+
+  onBlur() {
+    this.onTouched();
   }
 }

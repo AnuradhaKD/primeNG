@@ -31,12 +31,21 @@ export class CheckboxGroupComponent implements ControlValueAccessor {
   @Input() categories: { name: string; value: string }[] = [];
   @Input() layout: 'horizontal' | 'vertical' = 'vertical';
   @Input() btnLabel: string = '';
+  @Output() onValueChange = new EventEmitter<any>();
 
   selectedCategories: any[] = [];
 
   private onChange = (value: any) => {};
   private onTouched = () => {};
 
+  // When a checkbox is checked or unchecked, update the selected categories and emit the value.
+  onCheckBoxChange(event: any) {
+    // Emit the selected categories as an array of values.
+    this.onValueChange.emit(this.selectedCategories);
+    this.onChange(this.selectedCategories);
+  }
+
+  // Required methods from ControlValueAccessor
   writeValue(value: any): void {
     this.selectedCategories = value || [];
   }
@@ -47,10 +56,5 @@ export class CheckboxGroupComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
-  }
-
-  onSelectionChange() {
-    this.onChange(this.selectedCategories);
-    this.onTouched();
   }
 }

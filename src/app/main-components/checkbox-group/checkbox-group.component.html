@@ -1,7 +1,8 @@
 <div [ngClass]="layout === 'horizontal' ? 'd-flex flex-wrap gap-3' : 'd-flex flex-column gap-2'">
     <div *ngFor="let category of categories" class="d-flex align-items-center">
-        <p-checkbox [inputId]="category.value" [value]="category.value" (onChange)="onSelectionChange()">
+        <p-checkbox [inputId]="category.value" [value]="category.value" [(ngModel)]="selectedCategories"
+            (onChange)="onCheckBoxChange($event)">
         </p-checkbox>
-        <label for="ny" class="ms-2">{{category.name}}</label>
+        <label for="ny" class="ms-2">{{ category.name }}</label>
     </div>
 </div>

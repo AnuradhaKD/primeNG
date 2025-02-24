@@ -37,8 +37,20 @@ export class UserDetailsComponent {
   maxDate: Date = new Date('2025-02-28');
   selectedDate: Date = new Date();
   products: any[] = [];
+  registrationForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+    this.registrationForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      dateOfBirth: [null, Validators.required],
+      stayPeriod: [null, Validators.required],
+      continent: [null, Validators.required],
+      country: [null, Validators.required],
+      gender: ['O', Validators.required],
+      hobbies: [[], Validators.required],
+    });
+  }
 
   countryList = [
     { name: '--SELECT--', value: '1' },
@@ -88,26 +100,26 @@ export class UserDetailsComponent {
     { field: 'hobbies', header: 'Hobbies' },
   ];
 
-  registrationForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    dateOfBirth: new FormControl(''),
-    stayPeriod: new FormControl(''),
-    continent: new FormControl(),
-    country: new FormControl(),
-    gender: new FormControl(),
-    hobbies: new FormControl(),
-  });
-
   submitForm() {
-    const formData = this.registrationForm.value;
-    localStorage.setItem('formData', JSON.stringify(formData));
-
-    alert('Form data saved successfully!');
+    //debugger;
+    const formData = this.registrationForm;
+    //localStorage.setItem('formData', JSON.stringify(formData));
     console.log('Form Data:', formData);
+    console.log('Updated Form:', this.registrationForm.value);
+    //debugger;
   }
 
-  handleDateChange(selectedDate: Date) {
-    return selectedDate;
+  handleValueChange(value: string) {
+    console.log('Selected Value:', value);
+  }
+
+  handleCheckboxChange(selectedValues: any[]) {
+    console.log('Selected Values:', selectedValues);
+  }
+
+  onRadioValueChange(value: any) {
+    console.log('Selected Value:', value);
+    this.registrationForm.patchValue({ gender: value });
+    console.log('Updated:', this.registrationForm.value);
   }
 }
