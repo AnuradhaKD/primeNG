@@ -1,7 +1,6 @@
 <p-floatlabel class="w-full" variant="on">
-    <p-select [options]="dropdownDataList" formControlName="dropdownFormControlName" optionLabel="name"
-        [filter]="true" filterBy="name" [placeholder]="dropdownPlaceholder" [showClear]="true" class="w-full">
-
+    <p-select [options]="dropdownDataList" optionLabel="name" [filter]="true" filterBy="name"
+        [placeholder]="dropdownPlaceholder" [showClear]="true" class="w-full" (ngModelChange)="onValueChange($event)">
         <ng-template #selectedItem let-selectedOption>
             <div class="flex items-center gap-2">
                 <div>{{ selectedOption.name }}</div>

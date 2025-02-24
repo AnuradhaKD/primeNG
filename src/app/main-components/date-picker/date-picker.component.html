@@ -1,6 +1,6 @@
 <p-floatlabel variant="on" class="full-width-inputs">
-    <p-datepicker [formControlName]="formControlName" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay"
-        [minDate]="minDate" [maxDate]="maxDate" [selectionMode]="selectionMode">
+    <p-datepicker [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" [minDate]="minDate"
+        [maxDate]="maxDate" [selectionMode]="selectionMode" (onSelect)="onDateChange($event)">
     </p-datepicker>
     <label for="icondisplay">{{ labelName }}</label>
 </p-floatlabel>

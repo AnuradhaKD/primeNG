@@ -1,70 +1,78 @@
-<p-fieldset legend="User Details Form">
-  <form [formGroup]="registrationForm" (ngSubmit)="submitForm()">
-    <div class="row">
-      <div class="col-md-6">
-        <app-text-input [inputId]="'firstName'" [inputLabel]="'First Name'" [inputClass]="'custom-class'"
-          formControlName="firstName" name="firstName">
-        </app-text-input>
+<div class="container">
+
+  <p-fieldset legend="User Details Form">
+    <form [formGroup]="registrationForm" (ngSubmit)="submitForm()">
+      <div class="row">
+        <div class="col-md-6">
+          <app-text-input [inputId]="'firstName'" [inputLabel]="'First Name'" [inputClass]="'custom-class'"
+            formControlName="firstName" name="firstName">
+          </app-text-input>
+        </div>
+
+        <div class="col-md-6">
+          <app-text-input [inputId]="'lastName'" [inputLabel]="'Last Name'" [inputClass]="'custom-class'"
+            formControlName="lastName">
+          </app-text-input>
+        </div>
       </div>
 
-      <div class="col-md-6">
-        <app-text-input [inputId]="'lastName'" [inputLabel]="'Last Name'" [inputClass]="'custom-class'"
-          formControlName="lastName">
-        </app-text-input>
-      </div>
-    </div>
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <app-date-picker formControlName="dateOfBirth" [labelName]="'Date of Birth'" [minDate]="minDate"
+            [maxDate]="maxDate" selectionMode="single">
+          </app-date-picker>
 
-    <div class="row mt-3">
-      <div class="col-md-6">
-        <app-date-picker formControlName="dob" labelName="'Date of Birth'" [minDate]="minDate" [maxDate]="maxDate" selectionMode="single">
-        </app-date-picker>
-      </div>
+        </div>
 
-      <div class="col-md-6">
-        <app-date-picker formControlName="stayPeriod" [labelName]="'Select your stay'" [minDate]="minDate" [maxDate]="maxDate"
-          selectionMode="range">
-        </app-date-picker>
-        
-      </div>
-    </div>
+        <div class="col-md-6">
+          <app-date-picker formControlName="stayPeriod" [labelName]="'Select your stay'" [minDate]="minDate"
+            [maxDate]="maxDate" selectionMode="range">
+          </app-date-picker>
 
-    <div class="row mt-3">
-      <div class="col-md-6">
-    <app-drop-down-with-search [dropdownDataList]="continentsList" [dropdownFormControlName]="'continent'"
-      [labelName]="'Select a Continent'" [dropdownPlaceholder]="'Select a continent'">
-    </app-drop-down-with-search>
+        </div>
       </div>
 
-      <div class="col-md-6">
-      <app-drop-down-with-search [dropdownDataList]="countryList" [dropdownFormControlName]="'country'"
-        [labelName]="'Select a Country'" [dropdownPlaceholder]="'Select a country'">
-      </app-drop-down-with-search>
-      </div>
-    </div>
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <app-drop-down-with-search [dropdownDataList]="continentsList" formControlName="continent"
+            [labelName]="'Select a Continent'" [dropdownPlaceholder]="'Select a continent'">
+          </app-drop-down-with-search>
+        </div>
 
-    <div class="row mt-3">
-      <div class="col-md-6">
-        <label>Gender : </label>
-        <app-radiobutton-group [categories]="genderList" formControlName="gender" layout="horizontal">
-        </app-radiobutton-group>
+        <div class="col-md-6">
+          <app-drop-down-with-search [dropdownDataList]="countryList" formControlName="country"
+            [labelName]="'Select a Country'" [dropdownPlaceholder]="'Select a country'">
+          </app-drop-down-with-search>
+        </div>
       </div>
 
-      <div class="col-md-6">
-        <label>Hobbies : </label>
-        <app-checkbox-group [categories]="hobbyList" formControlName="hobbies">
-        </app-checkbox-group>
-      </div>
-    </div>
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <label>Gender : </label>
+          <app-radiobutton-group [categories]="genderList" formControlName="gender" layout="horizontal">
+          </app-radiobutton-group>
+        </div>
 
-    <div class="row mt-4">
-      <div class="col-md-12">
-        <app-button [btnLabel]="'Submit'" [btnIcon]="'pi pi-check'" [btnSeverity]="'success'">
-        </app-button>
+        <div class="col-md-6">
+          <label>Hobbies : </label>
+          <app-checkbox-group [categories]="hobbyList" formControlName="hobbies">
+          </app-checkbox-group>
+        </div>
       </div>
-    </div>
-  </form>
-</p-fieldset>
 
-<p-fieldset legend="User Details Table">
-  <app-table [tableHeader]="cols" [tableBody]="products"></app-table>
-</p-fieldset>
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <!-- <button class="btn btn-primary" type="submit">Submit</button> -->
+          <app-button [btnLabel]="'Submit'" [btnIcon]="'pi pi-check'" [btnSeverity]="'success'" [btnType]="'submit'">
+          </app-button>
+
+        </div>
+      </div>
+    </form>
+  </p-fieldset>
+  <br>
+  <p-fieldset legend="User Details Table">
+    <app-table [tableHeader]="cols" [tableBody]="products"></app-table>
+  </p-fieldset>
+
+</div>

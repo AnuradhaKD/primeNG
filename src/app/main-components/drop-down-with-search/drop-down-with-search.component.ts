@@ -1,20 +1,50 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FloatLabelModule } from 'primeng/floatlabel';
+import { Component, Input, forwardRef } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-drop-down-with-search',
-  imports: [FormsModule, ReactiveFormsModule, SelectModule, FloatLabelModule],
+  standalone: true,
+  imports: [SelectModule, FloatLabelModule],
   templateUrl: './drop-down-with-search.component.html',
-  styleUrl: './drop-down-with-search.component.css',
+  styleUrls: ['./drop-down-with-search.component.css'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DropDownWithSearchComponent),
+      multi: true,
+    },
+  ],
 })
-export class DropDownWithSearchComponent {
+export class DropDownWithSearchComponent implements ControlValueAccessor {
   @Input() dropdownDataList: { name: string; value: string }[] = [];
   @Input() labelName: string = 'Select Option';
   @Input() dropdownPlaceholder: string = 'Select One';
 
-  @Input() formControl?: FormControl; // For direct FormControl binding
-  @Input() dropdownFormControlName?: string; // For FormGroup binding
+  selectedValue: string | null = null;
+
+  private onChange: (value: any) => void = () => {};
+  private onTouched: () => void = () => {};
+
+  writeValue(value: any): void {
+    this.selectedValue = value;
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  onValueChange(event: any) {
+    this.selectedValue = event.value;
+    this.onChange(this.selectedValue);
+  }
+
+  onBlur() {
+    this.onTouched();
+  }
 }

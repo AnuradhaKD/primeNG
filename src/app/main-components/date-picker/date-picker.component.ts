@@ -29,9 +29,10 @@ export class DatePickerComponent implements ControlValueAccessor {
   @Input() selectionMode: any = 'single';
   @Input() minDate: Date | null = null;
   @Input() maxDate: Date | null = null;
-  @Input() formControlName!: string;
 
-  selectedDate: Date | null = null;
+  @Output() dateChange = new EventEmitter<Date>();
+
+  selectedDate: Date | undefined;
   onChange: any = () => {};
   onTouched: any = () => {};
 
@@ -50,6 +51,8 @@ export class DatePickerComponent implements ControlValueAccessor {
   }
 
   onDateChange(event: any) {
-    this.onChange(event.value);
+    this.selectedDate = event.value;
+    this.onChange(this.selectedDate);
+    this.dateChange.emit(this.selectedDate);
   }
 }

@@ -24,9 +24,8 @@ export class TextInputComponent implements ControlValueAccessor {
   @Input() inputPlaceholder: string = '';
   @Input() inputClass: string = '';
 
-  inputValue: string = ''; // Store the value of the input field
+  inputValue: string = '';
 
-  // Function to notify when the input value changes
   onChange: any = () => {};
   onTouched: any = () => {};
 

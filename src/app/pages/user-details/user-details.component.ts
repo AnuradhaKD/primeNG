@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -31,12 +32,11 @@ import { TableComponent } from '../../main-components/table/table.component';
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.css',
 })
-export class UserDetailsComponent implements OnInit {
-  registrationForm!: FormGroup;
+export class UserDetailsComponent {
   minDate: Date = new Date('2025-02-01');
   maxDate: Date = new Date('2025-02-28');
   selectedDate: Date = new Date();
-  products: any[] = []; // Holds table data
+  products: any[] = [];
 
   constructor(private fb: FormBuilder) {}
 
@@ -88,70 +88,26 @@ export class UserDetailsComponent implements OnInit {
     { field: 'hobbies', header: 'Hobbies' },
   ];
 
-  ngOnInit(): void {
-    this.registrationForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      dob: ['', Validators.required],
-      stayPeriod: [null, Validators.required],
-      continent: [[]],
-      country: [[]],
-      gender: ['', Validators.required],
-      hobbies: [[]], // Multiple selections
-    });
-
-    // Load existing data from local storage
-    this.loadTableData();
-  }
+  registrationForm = new FormGroup({
+    firstName: new FormControl(''),
+    lastName: new FormControl(''),
+    dateOfBirth: new FormControl(''),
+    stayPeriod: new FormControl(''),
+    continent: new FormControl(),
+    country: new FormControl(),
+    gender: new FormControl(),
+    hobbies: new FormControl(),
+  });
 
   submitForm() {
-    if (this.registrationForm.valid) {
-      const formData = this.registrationForm.value;
+    const formData = this.registrationForm.value;
+    localStorage.setItem('formData', JSON.stringify(formData));
 
-      // Convert to readable format
-      const newData = {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        dob: formData.dob.toLocaleDateString(),
-        stayPeriod: formData.stayPeriod,
-        continent: this.getNameFromValue(
-          this.continentsList,
-          formData.continent
-        ),
-        country: this.getNameFromValue(this.countryList, formData.country),
-        gender: this.getNameFromValue(this.genderList, formData.gender),
-        hobbies: formData.hobbies.map((h: any) => h.name).join(', '),
-      };
-
-      // Store data in localStorage
-      const storedData = JSON.parse(
-        localStorage.getItem('userDetails') || '[]'
-      );
-      storedData.push(newData);
-      localStorage.setItem('userDetails', JSON.stringify(storedData));
-
-      // Reload table data
-      this.loadTableData();
-      this.registrationForm.reset();
-    }
+    alert('Form data saved successfully!');
+    console.log('Form Data:', formData);
   }
 
-  onDropdownChange(newValue: string, controlName: string) {
-    this.registrationForm.get(controlName)?.setValue(newValue);
-    console.log(`${controlName} selected:`, newValue);
+  handleDateChange(selectedDate: Date) {
+    return selectedDate;
   }
-
-  loadTableData() {
-    this.products = JSON.parse(localStorage.getItem('userDetails') || '[]');
-  }
-
-  getNameFromValue(list: any[], value: string) {
-    const item = list.find((l) => l.value === value || l.key === value);
-    return item ? item.name : value;
-  }
-
-  // onDateChange(event: Date) {
-  //   this.selectedDate = event;
-  //   console.log(this.selectedDate);
-  // }
 }
