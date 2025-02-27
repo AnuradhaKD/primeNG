@@ -30,7 +30,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 export class CheckboxGroupComponent implements ControlValueAccessor {
   @Input() categories: { name: string; value: string }[] = [];
   @Input() layout: 'horizontal' | 'vertical' = 'vertical';
-  @Input() btnLabel: string = '';
+  @Input() labelName: string = '';
   @Output() onValueChange = new EventEmitter<any>();
 
   selectedCategories: any[] = [];

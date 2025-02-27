@@ -1,79 +1,114 @@
-<div class="container">
+<div class="container-fluid mt-2">
+  <div class="card">
 
-  <p-fieldset legend="User Details Form">
-    <form [formGroup]="registrationForm" (ngSubmit)="submitForm()">
+
+    <div class="card-header">
       <div class="row">
-        <div class="col-md-6">
-          <app-text-input [inputId]="'firstName'" [inputLabel]="'First Name'" [inputClass]="'custom-class'"
-            formControlName="firstName" name="firstName">
-          </app-text-input>
+        <div class="col-6">
+          <h3>User Details</h3>
         </div>
-
-        <div class="col-md-6">
-          <app-text-input [inputId]="'lastName'" [inputLabel]="'Last Name'" [inputClass]="'custom-class'"
-            formControlName="lastName">
-          </app-text-input>
-        </div>
-      </div>
-
-      <div class="row mt-3">
-        <div class="col-md-6">
-          <app-date-picker formControlName="dateOfBirth" [labelName]="'Date of Birth'" [minDate]="minDate"
-            [maxDate]="maxDate" selectionMode="single">
-          </app-date-picker>
-
-        </div>
-
-        <div class="col-md-6">
-          <app-date-picker formControlName="stayPeriod" [labelName]="'Select your stay'" [minDate]="minDate"
-            [maxDate]="maxDate" selectionMode="range">
-          </app-date-picker>
-
+        <div class="col-6 text-end">
+          @if (isNewUser==false) {
+          <button class="btn btn-info" (click)="changeCards()" title="Toggle"><span class="pi pi-plus"></span></button>
+          }@else {
+          <button class="btn btn-info" (click)="changeCards()" title="Toggle"><span class="pi pi-list"></span></button>
+          }
         </div>
       </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
 
-      <div class="row mt-3">
-        <div class="col-md-6">
-          <app-drop-down-with-search [dropdownDataList]="continentsList" formControlName="continent"
-            [labelName]="'Select a Continent'" [dropdownPlaceholder]="'Select a continent'">
-          </app-drop-down-with-search>
-        </div>
+        @if (isNewUser==false) {
+        <div class="col-12">
+          <p-fieldset legend="User Details Table">
+            <div class="table-responsive">
+              <app-table [tableHeader]="cols" [tableBody]="userDetailsTable"></app-table>
+            </div>
+          </p-fieldset>
 
-        <div class="col-md-6">
-          <app-drop-down-with-search [dropdownDataList]="countryList" formControlName="country"
-            [labelName]="'Select a Country'" [dropdownPlaceholder]="'Select a country'">
-          </app-drop-down-with-search>
         </div>
+        }@else {
+        <div class="col-12">
+          <p-fieldset legend="User Details Form">
+            <form [formGroup]="registrationForm" (ngSubmit)="submitForm()">
+              <div class="row">
+                <div class="col-6">
+                  <app-text-input [inputId]="'firstName'" [inputLabel]="'firstName : '" [inputClass]="'custom-class'"
+                    formControlName="firstName" name="firstName">
+                  </app-text-input>
+                </div>
+
+                <div class="col-6">
+                  <app-text-input [inputId]="'lastName'" [inputLabel]="'Last Name : '" [inputClass]="'custom-class'"
+                    formControlName="lastName">
+                  </app-text-input>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-6">
+                  <app-date-picker formControlName="dateOfBirth" [labelName]="'Date of Birth : '" [minDate]="minDate"
+                    [maxDate]="maxDate" selectionMode="single">
+                  </app-date-picker>
+
+                </div>
+
+                <div class="col-6">
+                  <app-date-picker formControlName="stayPeriod" [labelName]="'Select your stay : '" [minDate]="minDate"
+                    [maxDate]="maxDate" selectionMode="range">
+                  </app-date-picker>
+
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-6">
+                  <app-drop-down-with-search [dropdownDataList]="continentsList" formControlName="continent"
+                    [labelName]="'Select a Continent : '" [dropdownPlaceholder]="'Select a continent'">
+                  </app-drop-down-with-search>
+                </div>
+
+                <div class="col-6">
+                  <app-drop-down-with-search [dropdownDataList]="countryList" formControlName="country"
+                    [labelName]="'Select a Country : '" [dropdownPlaceholder]="'Select a country'">
+                  </app-drop-down-with-search>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-6">
+                  <app-radiobutton-group [labelName]="'Gender : '" (onValueChange)="onRadioValueChange($event)"
+                    [categories]="genderList" formControlName="gender" layout="horizontal">
+                  </app-radiobutton-group>
+                </div>
+
+                <div class="col-6">
+                  <app-checkbox-group [labelName]="'Hobbies : '" [categories]="hobbyList" formControlName="hobbies"
+                    (onValueChange)="handleCheckboxChange($event)">
+                  </app-checkbox-group>
+                </div>
+              </div>
+
+              <div class="row mt-4">
+                <div class="col-6">
+                  <app-button [btnLabel]="'Submit'" [btnIcon]="'pi pi-check'" [btnSeverity]="'success'"
+                    [btnType]="'submit'">
+                  </app-button>
+
+                </div>
+                <div class="col-6">
+
+                </div>
+              </div>
+            </form>
+          </p-fieldset>
+        </div>
+        }
       </div>
 
-      <div class="row mt-3">
-        <div class="col-md-6">
-          <label>Gender : </label>
-          <app-radiobutton-group (onValueChange)="onRadioValueChange($event)" [categories]="genderList"
-            formControlName="gender" layout="horizontal">
-          </app-radiobutton-group>
-        </div>
+    </div>
+  </div>
 
-        <div class="col-md-6">
-          <label>Hobbies : </label>
-          <app-checkbox-group [categories]="hobbyList" formControlName="hobbies"
-            (onValueChange)="handleCheckboxChange($event)">
-          </app-checkbox-group>
-        </div>
-      </div>
-
-      <div class="row mt-4">
-        <div class="col-md-12">
-          <app-button [btnLabel]="'Submit'" [btnIcon]="'pi pi-check'" [btnSeverity]="'success'" [btnType]="'submit'">
-          </app-button>
-
-        </div>
-      </div>
-    </form>
-  </p-fieldset>
-  <br>
-  <p-fieldset legend="User Details Table">
-    <app-table [tableHeader]="cols" [tableBody]="products"></app-table>
-  </p-fieldset>
 
 </div>

@@ -8,12 +8,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
 })
-export class TableComponent implements OnInit {
+export class TableComponent {
   @Input() tableHeader: any[] = [];
   @Input() tableBody: any[] = [];
-
-  ngOnInit() {
-    console.log('Columns:', this.tableHeader);
-    console.log('Products:', this.tableBody);
-  }
 }

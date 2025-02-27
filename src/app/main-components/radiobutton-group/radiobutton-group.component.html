@@ -1,8 +1,11 @@
 <div [ngClass]="layout === 'horizontal' ? 'd-flex flex-wrap gap-3' : 'd-flex flex-column gap-2'">
-    <div *ngFor="let category of categories" class="d-flex align-items-center">
+    <label class="form-label" for="">{{labelName}}</label><br>
+    <div class="d-flex align-items-center">
+        @for (category of categories; track $index) {
         <p-radiobutton [inputId]="category.key" name="group" [value]="category.key" [(ngModel)]="selectedValue"
             (change)="onRadioValueChange($event)" (blur)="onBlur()">
         </p-radiobutton>
         <label [for]="category.key" class="ms-2">{{ category.name }}</label>
+        }
     </div>
 </div>

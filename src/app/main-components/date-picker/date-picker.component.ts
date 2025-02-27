@@ -41,17 +41,13 @@ export class DatePickerComponent implements ControlValueAccessor {
 
   writeValue(value: any): void {
     if (this.selectionMode === 'single') {
-      // Handle single date value (can be a string or Date)
       this.selectedDate = value ? new Date(value) : null;
-    } else if (
-      this.selectionMode === 'range' &&
-      Array.isArray(value) &&
-      value.length === 2
-    ) {
-      // Handle date range with null values
-      const startDate = value[0] ? new Date(value[0]) : null;
-      const endDate = value[1] ? new Date(value[1]) : null;
-      this.selectedDate = [startDate, endDate];
+    } else if (this.selectionMode === 'range' && Array.isArray(value)) {
+      const startDate =
+        value.length > 0 && value[0] ? new Date(value[0]) : null;
+      const endDate = value.length > 1 && value[1] ? new Date(value[1]) : null;
+
+      this.selectedDate = [startDate, endDate] as [Date | null, Date | null];
     } else {
       this.selectedDate = null;
     }
@@ -65,26 +61,41 @@ export class DatePickerComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
+  selectedRange: [Date | null, Date | null] = [null, null];
+
   onDateChange(event: any) {
     if (this.selectionMode === 'single') {
-      // For single date
       this.selectedDate = event ? new Date(event) : null;
-    } else if (
-      this.selectionMode === 'range' &&
-      Array.isArray(event) &&
-      event.length === 2
-    ) {
-      // For date range with null values
-      const startDate = event[0] ? new Date(event[0]) : null;
-      const endDate = event[1] ? new Date(event[1]) : null;
-      this.selectedDate = [startDate, endDate];
-    } else {
-      this.selectedDate = null;
-    }
+      this.onChange(this.selectedDate);
+      this.dateChange.emit(this.selectedDate);
+    } else if (this.selectionMode === 'range') {
+      if (!Array.isArray(event)) {
+        if (!this.selectedRange[0]) {
+          this.selectedRange[0] = new Date(event);
+        } else {
+          this.selectedRange[1] = new Date(event);
+        }
 
-    // Emit changes
-    this.onChange(this.selectedDate);
-    this.dateChange.emit(this.selectedDate);
+        if (this.selectedRange[0] && this.selectedRange[1]) {
+          this.selectedDate = [...this.selectedRange] as [
+            Date | null,
+            Date | null
+          ];
+          this.onChange(this.selectedDate);
+          this.dateChange.emit(this.selectedDate);
+
+          this.selectedRange = [null, null];
+        }
+      } else {
+        this.selectedDate = [
+          event[0] ? new Date(event[0]) : null,
+          event[1] ? new Date(event[1]) : null,
+        ] as [Date | null, Date | null];
+
+        this.onChange(this.selectedDate);
+        this.dateChange.emit(this.selectedDate);
+      }
+    }
   }
 
   onBlur() {

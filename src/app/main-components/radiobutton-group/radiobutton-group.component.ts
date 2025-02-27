@@ -29,16 +29,17 @@ import { FormsModule } from '@angular/forms';
 export class RadiobuttonGroupComponent implements ControlValueAccessor {
   @Input() categories: { name: string; key: string }[] = [];
   @Input() layout: 'horizontal' | 'vertical' = 'vertical';
-  @Input() selectedValue: string | null = null;
+  @Input() labelName: string = '';
 
-  @Output() onValueChange = new EventEmitter<any>();
+  @Output() onRadioButtonValueChange = new EventEmitter<any>();
+
+  selectedValue: string | null = null;
 
   onRadioValueChange(event: any) {
     //if (event.value !== this.selectedValue) {
-
-    console.log(event.target.value);
-    this.onValueChange.emit(event.target.value);
-    this.onChange(event.Id);
+    this.selectedValue = event.target.value;
+    this.onChange(this.selectedValue);
+    this.onRadioButtonValueChange.emit(this.selectedValue);
     //}
   }
   private onChange: (value: string | null) => void = () => {};

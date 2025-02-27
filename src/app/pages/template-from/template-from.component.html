@@ -1,0 +1,139 @@
+<div class="container-fluid mt-2">
+    <div class="row">
+
+        @if(isNewUser==false){
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+
+                    <div class="row">
+                        <div class="col-6">
+                            <h3>User Details</h3>
+                        </div>
+                        <div class="col-6 text-end">
+                            <button class="btn btn-primary" (click)="changeCard()">Add</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">Genser</th>
+                                        <th scope="col">Phone Number</th>
+                                        <th scope="col">Zip Code</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (item of userList; track $index) {
+                                    <tr>
+                                        <td>{{item.firstName}}</td>
+                                        <td>{{item.lastName}}</td>
+                                        <td>{{item.address}}</td>
+                                        <td>{{item.gender}}</td>
+                                        <td>{{item.phoneNumber}}</td>
+                                        <td>{{item.zipCode}}</td>
+                                        <td><button type="button" class="btn btn-primary pr-2"
+                                                (click)="onEdit(item)">Edit</button><button type="button"
+                                                class="btn btn-danger" (click)="onDelete(item.userId)">Delete</button>
+                                        </td>
+
+                                    </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }@else{
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-6">
+                            <h3>User Form</h3>
+                        </div>
+                        <div class="col-6 text-end">
+                            <button class="btn btn-primary" (click)="changeCard()">List</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <form class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" [(ngModel)]="userObj.firstName" name="firstName"
+                                        class="form-control" id="firstName">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" [(ngModel)]="userObj.lastName" name="lastName"
+                                        class="form-control" id="lastName">
+                                </div>
+                                <div class="col-12">
+                                    <label for="address" class="form-label">Address</label>
+                                    <input type="text" [(ngModel)]="userObj.address" name="address" class="form-control"
+                                        id="inputAddress" placeholder="1234 Main St">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                                    <input type="text" [(ngModel)]="userObj.phoneNumber" name="phoneNumber"
+                                        class="form-control" id="phoneNumber">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="gender" class="form-label">Gender</label>
+                                    <select [(ngModel)]="userObj.gender" name="gender" id="gender" class="form-select">
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="inputZip" class="form-label">Zip</label>
+                                    <input type="text" [(ngModel)]="userObj.zipCode" name="zipCode" class="form-control"
+                                        id="inputZip">
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" [(ngModel)]="userObj.isAgreed" name="isAgreed"
+                                            type="checkbox" id="gridCheck">
+                                        <label class="form-check-label" for="gridCheck">
+                                            Check me out
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+
+                                    @if (userObj.userId==0) {
+                                    <button type="submit" class="btn btn-primary" (click)="onSave()">Save</button>
+                                    }@else {
+                                    <button type="submit" class="btn btn-warning" (click)="onUpdate()">Update</button>
+
+                                    }
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+
+
+</div>

@@ -1,0 +1,15 @@
+p-table {
+    max-width: 100%;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
+}
+
+.p-datatable {
+    width: 100% !important;
+    table-layout: fixed;
+    /* Prevent column expansion */
+}
+
+.p-datatable-wrapper {
+    overflow-x: hidden !important;
+}

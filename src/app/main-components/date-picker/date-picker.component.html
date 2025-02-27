@@ -1,7 +1,6 @@
-<p-floatlabel variant="on" class="full-width-inputs">
-    <p-datepicker [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" [minDate]="minDate"
-        [maxDate]="maxDate" [selectionMode]="selectionMode" (onSelect)="onDateChange($event)"
-        [(ngModel)]="selectedDate">
-    </p-datepicker>
-    <label for="icondisplay">{{ labelName }}</label>
-</p-floatlabel>
+<!-- <p-floatlabel variant="on" class="full-width-inputs"> -->
+<label class="form-label" for="icondisplay">{{ labelName }}</label><br>
+<p-datepicker [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" [minDate]="minDate" [maxDate]="maxDate"
+    [selectionMode]="selectionMode" (onSelect)="onDateChange($event)" [(ngModel)]="selectedDate">
+</p-datepicker>
+<!-- </p-floatlabel> -->

@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-.full-width-inputs input{
+.full-width-inputs input {
     width: 100% !important;
+}
+
+.form-label {
+    font-weight: 600 !important;
 }
