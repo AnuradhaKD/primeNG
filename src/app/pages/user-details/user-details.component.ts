@@ -431,7 +431,7 @@ class User {
   firstName: string = '';
   lastName: string = '';
   dateOfBirth: Date | null = null;
-  stayPeriod: any = {}; // Define proper type if needed
+  stayPeriod: any = {}; 
   continent: string | null = null;
   country: string | null = null;
   gender: string[] = [];
